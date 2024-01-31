@@ -1,0 +1,63 @@
+{% block content %}
+  <div style="max-width: 400px; margin: auto;">
+    <h2 style="text-align: center;">Sign Up</h2>
+    <form method="post" action="{% url 'signup' %}" id="signup-form" style="background-color: #f2f2f2; padding: 20px; border-radius: 10px;">
+      {% csrf_token %}
+
+      <div style="margin-bottom: 10px;">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+      </div>
+      
+      <div style="margin-bottom: 10px;">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+      </div>
+      
+      <div style="margin-bottom: 10px;">
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+        <div id="password-messages" style="margin-top: 5px; color: red;"></div>
+      </div>
+
+      <div style="margin-bottom: 10px;">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+      </div>
+
+      <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; width: 100%;">Sign Up</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to show password error messages
+    function showPasswordMessages(messages) {
+      const passwordMessages = document.getElementById('password-messages');
+      passwordMessages.innerHTML = messages;
+    }
+
+    // Function to check password criteria and update messages
+    function checkPasswordCriteria(password) {
+      let messages = '';
+
+      if (password.length < 8) {
+        messages += '<p>Your password must contain at least 8 characters.</p>';
+      }
+
+      if (/^\d+$/.test(password)) {
+        messages += '<p>Your password can’t be entirely numeric.</p>';
+      }
+
+      // Add other criteria checks here...
+
+      showPasswordMessages(messages);
+    }
+
+    // Attach the function to the input event of the password field
+    const passwordField = document.getElementById('id_password1');
+    passwordField.addEventListener('input', function() {
+      const password = this.value;
+      checkPasswordCriteria(password);
+    });
+  </script>
+{% endblock %}
